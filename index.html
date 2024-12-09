@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gnome Village - Your Unique Gnome House</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'MedievalSharp', cursive;
+            background: linear-gradient(to bottom, #3c2e2e, #1f1313),
+                        url('https://example.com/subtle-mushroom-pattern.png');
+            background-repeat: repeat;
+            background-size: cover;
+            background-blend-mode: multiply;
+            color: #f0dbc3;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hero {
+            padding: 50px 20px;
+            background: url('https://example.com/gnome-forest.jpg') center/cover no-repeat;
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top:0; left:0; right:0; bottom:0;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .hero > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            color: #c4a46c;
+            text-shadow: 3px 3px 5px #000;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin: 20px 0;
+            color: #f0dbc3;
+        }
+
+        .hero .links {
+            margin-top: 20px;
+        }
+
+        .hero a {
+            color: #e0c580;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin: 0 10px;
+            transition: color 0.3s;
+        }
+
+        /* Add a mushroom icon before the navigation links */
+        .hero a[href="#gnome-lore"]::before {
+            content: "🍄 ";
+        }
+
+        .hero a:hover {
+            color: #fff0b2;
+        }
+
+        .generator {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(92,76,76,0.7);
+            border: 2px solid #c4a46c;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        .generator input {
+            font-size: 1.2em;
+            padding: 10px;
+            width: 300px;
+            margin: 10px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            background: #f0dbc3;
+            color: #2a1e1e;
+        }
+
+        .generator button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            background: #c4a46c;
+            color: #2a1e1e;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .generator button:hover {
+            background: #e0c580;
+        }
+
+        .loading-container {
+            display: none;
+            margin: 20px auto;
+        }
+
+        .loading-text {
+            color: #c4a46c;
+            font-size: 1.5em;
+            margin-top: 10px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #4a3e3e;
+            border-top: 5px solid #c4a46c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .house-showcase {
+            margin: 50px 0;
+        }
+
+        .house-showcase h2 {
+            color: #c4a46c;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .house {
+            display: inline-block;
+            margin: 20px;
+            padding: 15px;
+            border: 2px solid #444;
+            border-radius: 10px;
+            background: rgba(51,51,51,0.8);
+            color: #c4a46c;
+            text-align: left;
+            font-size: 1em;
+            white-space: pre;
+            overflow-x: auto;
+            position: relative;
+            width: 300px;
+        }
+
+        .house p {
+            margin: 5px 0;
+        }
+
+        .download-btn, .share-btn {
+            margin-top: 10px;
+            font-size: 1em;
+            padding: 8px 16px;
+            background: #c4a46c;
+            color: #2a1e1e;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-block;
+            margin-right: 10px;
+            transition: background 0.3s;
+        }
+
+        .download-btn:hover, .share-btn:hover {
+            background: #e0c580;
+        }
+
+        .share-btn {
+            background: #1DA1F2; /* Twitter Blue */
+            color: #fff;
+        }
+
+        .share-btn:hover {
+            background: #40a9f3;
+        }
+
+        .info-section {
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .info-section h2 {
+            text-align: center;
+            color: #c4a46c;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        /* Add a mushroom icon before "Gnome Lore & Myths" */
+        #gnome-lore h2::before {
+            content: "🍄 ";
+        }
+
+        .info-section p {
+            line-height: 1.5;
+            margin-bottom: 15px;
+            color: #f0dbc3;
+        }
+
+        footer {
+            padding: 20px 0;
+            background: #2a1e1e;
+            color: #888;
+            margin-top: 50px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .house {
+                width: 90%;
+            }
+
+            .generator input {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Your Gnome House Awaits</h1>
+        <p>Enter your Solana wallet address below and discover your unique Gnome House in the enchanted forest!</p>
+        <div class="links">
+            <a href="#gnome-lore">Gnome Lore & Myths</a>
+        </div>
+    </div>
+
+    <div class="generator">
+        <input type="text" id="wallet-address" placeholder="Enter your Solana wallet address...">
+        <button id="generate-button">Generate My Gnome House</button>
+    </div>
+
+    <div class="loading-container" id="loading-container">
+        <div class="spinner"></div>
+        <p class="loading-text">Assembling Mushroom Beams & Mossy Bricks...</p>
+    </div>
+
+    <div class="house-showcase" id="house-showcase">
+        <h2>Your Gnome House</h2>
+        <!-- Generated house will appear here -->
+    </div>
+
+    <!-- Gnome Lore & Myths Section -->
+    <div class="info-section" id="gnome-lore">
+        <h2>Gnome Lore & Myths</h2>
+        <p>Long before human maps charted these woodlands, the Gnome Folk quietly built their homesteads under twisting roots and dew-kissed ferns. Each family, known by its cherished surname, constructs a unique house that reflects its craft, whimsy, and devotion to the natural world. These tiny abodes are places of warmth and laughter, where the scent of mushroom stew mingles with the chirp of distant crickets.</p>
+        
+        <p>In the Gnome Village, homes are not merely structures—they are living stories. A mossy roof might tell of a family skilled in healing herbs, while wattle and daub walls may suggest old magic woven into their everyday life. Decorations like fungal curtains or woven ivy garlands carry whispers of the forest’s secret tunes. Within, gnome families tend to their mushroom plots, carve runes into wooden amulets, and sing songs that resonate in hidden glens.</p>
+        
+        <p>These houses are tied to the land, shaped by the kindness of forest spirits, and nourished by ancient springs. Over time, each family’s legacy grows as generations of gnomes add their touches—new decorations, fresh coats of paint made from crushed berries, or a handcrafted window that frames moonlit nights perfectly.</p>
+        
+        <p>To the visiting traveler, these tiny homes may seem humble. But spend an evening by a gnome hearth, and you might leave with pockets full of stories, a mushroom trinket gifted in gratitude, and a heart touched by quiet wonder. For as the old gnome proverb goes: “In a snug house with a kind family, one finds the true magic of the forest.”</p>
+    </div>
+
+    <footer>
+        © 2024 Gnome Village Expansion | Cozy Havens Under Ancient Trees
+    </footer>
+
+    <script>
+    (function() {
+        const walletInput = document.getElementById('wallet-address');
+        const generateButton = document.getElementById('generate-button');
+        const houseShowcase = document.getElementById('house-showcase');
+        const loadingContainer = document.getElementById('loading-container');
+
+        // Gnome House Generation Configuration
+        const ROOF_TYPES = [
+            "Thatch Roof", 
+            "Shingled Roof", 
+            "Mossy Roof", 
+            "Mushroom Cap Roof", 
+            "Twig & Leaf Roof"
+        ];
+
+        const WALL_MATERIALS = [
+            "Wattle & Daub Walls", 
+            "Cobblestone Walls", 
+            "Hollowed Log Walls", 
+            "Clay Brick Walls",
+            "Cork Board Walls"
+        ];
+
+        const DECORATIONS = [
+            "Hanging Lanterns", 
+            "Mushroom Planters", 
+            "Tiny Wind Chimes", 
+            "Fungal Curtains", 
+            "Woven Ivy Garland"
+        ];
+
+        const GNOME_FAMILIES = [
+            "Mushroot",
+            "Oakburrow",
+            "Fernwhisper",
+            "Mossbeard",
+            "Rootwhittle",
+            "Twignose",
+            "Cindertoe",
+            "Starcap",
+            "Runebloom",
+            "Trufflewick"
+        ];
+
+        function validateWalletAddress(address) {
+            const solanaAddressRegex = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
+            return solanaAddressRegex.test(address);
+        }
+
+        function hashAddress(address) {
+            let hash = 0;
+            for (let i = 0; i < address.length; i++) {
+                const char = address.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            return Math.abs(hash);
+        }
+
+        function generateGnomeHouse(hash) {
+            const roofIndex = hash % ROOF_TYPES.length;
+            const wallIndex = (hash >> 2) % WALL_MATERIALS.length;
+            const decorIndex = (hash >> 4) % DECORATIONS.length;
+            const familyIndex = (hash >> 6) % GNOME_FAMILIES.length;
+            const cozinessLevel = (hash % 100) + 1;
+
+            const roof = ROOF_TYPES[roofIndex];
+            const walls = WALL_MATERIALS[wallIndex];
+            const decor = DECORATIONS[decorIndex];
+            const familyName = GNOME_FAMILIES[familyIndex];
+
+            const roofSymbol = (roof.includes("Mushroom")) ? "((o))" : "/\\";
+            const wallSymbol = (walls.includes("Cobblestone")) ? "###" : "||";
+            const windowSymbol = "[ ]";
+            const doorSymbol = "|  |";
+
+            const asciiArt = `
+    ${roofSymbol} ${roofSymbol} ${roofSymbol}
+     ${wallSymbol}   ${windowSymbol}   ${wallSymbol}
+     ${wallSymbol}   ${doorSymbol}   ${wallSymbol}
+     ${wallSymbol}${wallSymbol}${wallSymbol}${wallSymbol}${wallSymbol}${wallSymbol}${wallSymbol}
+`;
+
+            return {
+                familyName,
+                roof,
+                walls,
+                decor,
+                cozinessLevel,
+                asciiArt
+            };
+        }
+
+        function showLoading() {
+            loadingContainer.style.display = 'block';
+            houseShowcase.innerHTML = '<h2>Your Gnome House</h2>';
+        }
+
+        function hideLoading() {
+            loadingContainer.style.display = 'none';
+        }
+
+        function displayGnomeHouse(house) {
+            const houseCard = document.createElement('div');
+            houseCard.className = 'house';
+            houseCard.innerHTML = `
+${house.asciiArt}
+<p><strong>Gnome Family:</strong> The ${house.familyName} Family</p>
+<p><strong>Roof Type:</strong> ${house.roof}</p>
+<p><strong>Wall Material:</strong> ${house.walls}</p>
+<p><strong>Decorations:</strong> ${house.decor}</p>
+<p><strong>Coziness Level:</strong> ${house.cozinessLevel}/100</p>
+            `;
+
+            const downloadButton = document.createElement('button');
+            downloadButton.className = 'download-btn';
+            downloadButton.textContent = 'Download House Details';
+            downloadButton.addEventListener('click', () => downloadHouse(house));
+
+            const shareButton = document.createElement('button');
+            shareButton.className = 'share-btn';
+            shareButton.textContent = 'Share on X';
+            shareButton.addEventListener('click', () => shareOnX(house));
+
+            houseCard.appendChild(downloadButton);
+            houseCard.appendChild(shareButton);
+
+            houseShowcase.appendChild(houseCard);
+        }
+
+        function downloadHouse(house) {
+            const houseDetails = `
+Gnome House Details:
+--------------------
+Family: The ${house.familyName} Family
+Roof Type: ${house.roof}
+Wall Material: ${house.walls}
+Decorations: ${house.decor}
+Coziness Level: ${house.cozinessLevel}/100
+
+ASCII Art:
+${house.asciiArt}
+            `;
+
+            const blob = new Blob([houseDetails], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${house.familyName}_GnomeHouse.txt`;
+            link.click();
+        }
+
+        function shareOnX(house) {
+            const houseDetails = `I just discovered my unique Gnome House! 🏠🍄
+
+Family: The ${house.familyName} Family
+Roof: ${house.roof}
+Walls: ${house.walls}
+Decor: ${house.decor}
+Coziness: ${house.cozinessLevel}/100
+
+Join the Gnome Village! #GnomeVillage #Solana
+
+@YourGnomeProjectHandle`;
+
+            const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(houseDetails)}`;
+            window.open(tweetUrl, '_blank');
+        }
+
+        generateButton.addEventListener('click', () => {
+            const walletAddress = walletInput.value.trim();
+
+            if (!validateWalletAddress(walletAddress)) {
+                alert('Please enter a valid Solana wallet address!');
+                return;
+            }
+
+            showLoading();
+
+            setTimeout(() => {
+                const hash = hashAddress(walletAddress);
+                const gnomeHouse = generateGnomeHouse(hash);
+
+                hideLoading();
+                displayGnomeHouse(gnomeHouse);
+            }, 2000);
+        });
+    })();
+    </script>
+</body>
+</html>
